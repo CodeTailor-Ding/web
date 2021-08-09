@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Component</title>
+</head>
+<body>
+    <!--组件使用-->
+    <div id="app">
+        <co-props :patcount="count1" @has-click="actForChild"></co-props>
+    </div>
+
+    <!--模板定义-->
+    <template id="props-counter">
+        <h3>得到父组件参数</h3>
+        <h4>counte：{{patcount}}</h4><br>
+        <h3>子组件向父组件发送信号按钮(在console中响应)</h3>
+        <button @click="toPatrent">send</button>
+    </template>
+
+    <!--Vue实例化部分-->
+    <script src="js/vue.global.js"></script>
+    <script>
+        
+        // ---------组件定义---------
+        const pro = {
+            // 自定义组件的数据
+            data(){
+                return{
+                    count: 0
+                }
+            },
+            // 用于从父向子传递数据,注意属性名不可用短横杠-
+            props:["patcount"],
+            methods:{
+                // 发送一个响应事件，可在父组件中接受到
+                toPatrent(){
+                    alert('子组件点击')
+                    this.$emit('has-Click', [88, 99])
+                }
+            },
+            template: "#props-counter"
+        }
+
+        // ---------创建Vue实例---------
+        const app = Vue.createApp({
+            data(){
+                return{
+                    count1: 10,
+                }
+            },
+            components:{
+                "co-props": pro
+            },
+            methods:{
+                actForChild(args){
+                    console.log('父组件响应子组件的信号提示。' + args)
+                }
+            }
+        });
+
+        // ---------定义一个组件并绑定到Vue中（全局组件）---------
+        // 注意命名细节，在Vue中使用驼峰式命名(ButtonCounter)，在引用是会出错。而在Vue-cli工程中，没有这种区别
+        app.component('button-counter', {
+            data(){
+                return{
+                    count: 0,
+                }
+            },
+            template:`
+                <button @click="count++">
+                    你点击了按钮{{count}}次。
+                </button>
+            `
+        });
+
+        // ---------挂载Vue实例---------
+        app.mount('#app');
+    </script>
+</body>
+</html>

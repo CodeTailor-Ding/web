@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<heda>
+    <meta charset="UTF-8">
+    <title>basic</title>
+</head>
+
+<body>
+<!--↓↓↓↓↓↓以下为Vue使用部分↓↓↓↓↓↓-->
+    <div id="app">
+        <!--插值语法
+            v-text, v-html, v-pre,
+            v-once, v-cloak
+        -->
+        <h1>--------------------插值语法---------------------</h1>
+        <h1> {{ message }} </h1>
+        <h1 v-text="message"> {{ message + 'add Message.' }} </h1>
+        <h1 v-once> {{ maths * 10 }} </h1> <!--值不随数据变化-->
+        <div v-html="messageHTML"></div>
+
+        <!-- v-bind，动态绑定,图片,文本,class,style-->
+        <h1>-------------------- v-bind ---------------------</h1>
+        <img src='imgUrl'> <!--无效-->
+        <img v-bind:src='imgUrl'>
+        <img :src='imgUrl'> <!--语法糖-->
+
+        <!-- v-on，事件绑定-->
+        <h1>-------------------- v-on ---------------------</h1>
+        <h1>运算结果：{{ maths }}</h1>
+        <button v-on:click="add"> + </button>
+        <button @click="sub()"> - </button>
+        <button @click="mul(maths)"> *2 </button>
+    
+        <!-- v-if, v-show 组件的显示与隐藏
+            v-if，v-else:真正的条件渲染，如果为false则会在源码中删除该标签。
+            v-show:通过css来实现隐藏，在源码中任存在相应标签代码
+        -->
+        <h1>-------------------- v-if, v-show ---------------------</h1>
+        <div v-if="flag"> v-if 显示</div>
+        <div v-show="flag"> v-show 显示</div>
+        <button @click="flag=!flag">切换flag</button>
+
+        <!-- v-for 列表遍历-->
+        <h1>-------------------- v-for ---------------------</h1>
+        <li v-for="item in list">{{item}}</li>
+        <li v-for="(item, index) in list">{{index}}--{{item}}</li>
+
+        <!-- v-model 双向绑定-->
+        <h1>-------------------- v-model ---------------------</h1>
+        v-model: <input type="text" v-model="inputmsg"> <br>
+        <h1>{{ inputmsg }}</h1>
+
+        v-bind and v-on: <input type="text" :vaule="inputmsg1" @input="inputmsg1=$event.target.value"><br>
+        <h1>{{ inputmsg1 }}</h1>
+
+        单选：<input name="sex" type="radio" value="男" v-model="sex">男
+        <input name="sex" type="radio" value="女" v-model="sex">女<br>
+        <h1>性别：{{ sex }}</h1>
+
+        多选:<label v-for="hob in hobbies" :for="hob">
+            <input type="checkbox" :value="hob" :id="hob" v-model="selectHob">{{hob }}
+        </label>
+        <h1>兴趣爱好：{{ selectHob }}</h1>
+    </div>
+<!--↑↑↑↑↑↑以上为Vue使用部分↑↑↑↑↑↑-->
+
+
+<!--↓↓↓↓↓↓以下为Vue对象定义部分↓↓↓↓↓↓-->
+    <script src="js/vue.global.js"></script>
+    <script>
+        //2、创建实例的全局配置对象
+        const HelloVue = {
+            // 实例数据
+            data(){
+                return {
+                    message: 'Hello Vue',
+                    messageHTML: '<a href="http://www.baidu.com">baidu</a>',
+                    maths: 2,
+                    flag: true,
+                    imgUrl: "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
+                    list: ['item1', 'item2', 'item3', 'item4'],
+                    inputmsg: 'input',
+                    inputmsg1: 'input',
+                    sex: '男',
+                    hobbies: ["篮球","羽毛球","足球","乒乓球"],
+                    selectHob: []
+                }
+            },
+
+            // 计算属性，与函数属性的区别就是，computed会缓存结果，如当多次调用pri时，只会输出一次结果。
+            computed:{
+                pri(){
+                    console.log('计算属性');
+                }
+            },
+
+            // 函数属性
+            methods:{
+                add(){
+                    this.maths++;
+                },
+                sub($event){
+                    this.maths--;
+                },
+                mul(args){
+                    this.maths += args;
+                }
+            }
+        };
+
+        //1、创建Vue的实例对象
+        const app = Vue.createApp(HelloVue).mount('#app');
+    </script>
+<!--↑↑↑↑↑↑以上为Vue对象定义部分↑↑↑↑↑↑-->
+
+</body>
+</html>
