@@ -50,10 +50,14 @@
 3、创建项目
     1.使用命令vue create cli-demo创建一个名为cli-demo的项目
         ①安装时有多个选项，babel是语法转换，eslint是语法检查。
-        ③如果环境中同时存在yarn和npm，则会提示选择使用yarn或者npm安装，如果选择了某个管理工具，
+        ②如果环境中同时存在yarn和npm，则会提示选择使用yarn或者npm安装，如果选择了某个管理工具，
             则在后续的使用中也要使用该工具的命令。
-        ②若在上一次create时选择的是自定义配置选项，则下次create时会将上次的配置信息导出，
+        ③若在上一次create时选择的是自定义配置选项，则下次create时会将上次的配置信息导出，
             如果要重新配置，则在目录C://Users/用户名/.vuerc中删除"myconfig"字段。
+        ④如果在创建项目时总是报错，而且不是网络问题，则打开Windows PowerShell，运行yarn --version，
+            看是否显示“在此系统上禁止运行脚本”，如果是，则在Windows PowerShell中，运行set-ExecutionPolicy RemoteSigned，
+            然后选“全是”。之后（重开cmd或者vscode等命令控制台后）再重新创建项目即可。
+        ⑤如果提示缓存文件（cache目录下）出错，则删除该文件后再创建。
     2.使用cd进入cli-demo文件夹后，输入命令npm run serve（yarn serve），即可开启服务
 
 4、常用操作
